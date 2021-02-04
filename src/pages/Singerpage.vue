@@ -206,7 +206,7 @@
         }
       }
     },
-    created() {this.querySingerdata();},
+    created() {this.querydata();},
     methods:{
       songEdit(id,name)//点击歌曲管理进行跳转
       {
@@ -232,7 +232,7 @@
           this.deleteSinger();
         }
         this.alselecttable=[];
-        this.querySingerdata();
+        this.querydata();
         this.pageChange(1);
         this.deleteallDialogVisible=false;
         this.showdelete=false;
@@ -245,7 +245,7 @@
       deleteSinger()//删除歌手
       {
         DeleteSinger(this.idx).then(res=>{
-          this.querySingerdata();
+          this.querydata();
           this.notify("删除成功",'success');
           this.deleteDialogVisible=false;
         }).catch(err=>{console.log(err);})
@@ -258,7 +258,7 @@
           {
             this.notify('修改成功','success');
             this.editDialogVisible=false;
-            this.querySingerdata();
+            this.querydata();
           }
           else
           {
@@ -290,7 +290,7 @@
             this.notify('添加成功','success');
             this.centerDialogVisible=false;
             this.$refs.registerForm.resetFields();
-            this.querySingerdata();
+            this.querydata();
           }
           else
           {
@@ -298,7 +298,7 @@
           }
         }).catch(err=> {console.log(err);})
       },
-      querySingerdata()//查询所有歌手
+      querydata()//查询所有歌手
       {
         querySinger().then(res=>{
           this.tableData=res.data;

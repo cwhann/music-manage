@@ -40,11 +40,11 @@ export const mixin = {
         }
         return true;
       },
-      //上传图片成功之后要做的工作
+      //上传图片之后要做的工作
       handleAvatorSuccess(res){
         let _this = this;
         if(res.code == 200){
-          _this.querySingerdata();
+          _this.querydata();
           _this.$notify({
             title: '上传成功',
             type: 'success'
@@ -56,6 +56,7 @@ export const mixin = {
           });
         }
       },
+
       //弹出删除窗口
       handleDelete(id){
         this.idx = id;
