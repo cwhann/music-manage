@@ -33,6 +33,10 @@ export default new Router({
           path:'/Song',
           component: resolve =>require(['../pages/Songpage.vue'],resolve)
         },
+        {
+          path:'/ListSong',
+          component: resolve =>require(['../pages/ListSongpage.vue'],resolve)
+        },
       ]
     },
 

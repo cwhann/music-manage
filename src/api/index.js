@@ -26,3 +26,14 @@ export const Querysongbyid = (params) => get(`song//findSongbysingerid?id=${para
 export const querySongByName = (params) => get(`song/findsongByNameLike?name=${params}`);
 //删除歌曲
 export const DeleteSong = (params) => get(`song/deletesongbyid?id=${params}`);
+//========================歌单相关=======================
+//添加歌单
+export const Addsonglist = (params) => post(`songlist/add`,params);
+//修改歌单
+export const Updatesonglist = (params) => post(`songlist/update`,params);
+//删除歌单
+export const Deletesonglist = (params) => get(`songlist/delete?id=${params}`);
+//查询歌单
+export const querysonglist = () => get(`songlist/queryall`);
+//根据歌单标题来模糊查询
+export const querysonglistBytile = (params) => get(`songlist/querybytitlelike?title=${params}`);

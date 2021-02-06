@@ -18,7 +18,18 @@
       <el-table-column label="歌曲图片" width="150" align="center">
         <template slot-scope="scope">
           <img :src="getUrl(scope.row.pic)" alt="" class="singer-img" width="100%">
-
+          <div class="play" @click="setSongUrl(scope.row.url,scope.row.name)">
+            <div v-if="toggle == scope.row.name">
+              <svg class="icon">
+                <use xlink:href="#icon-zanting"></use>
+              </svg>
+            </div>
+            <div v-if="toggle != scope.row.name">
+              <svg class="icon">
+                <use xlink:href="#icon-bofanganniu"></use>
+              </svg>
+            </div>
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="歌手-歌名" prop="name" width="150" align="center">
@@ -123,15 +134,16 @@
 </template>
 
 <script>
+  import '@/assets/js/iconfont.js';
   import {
     Addsong,
     Updatesong,
-    UpdateSinger,
     Querysongbyid,
     querySongByName,
     DeleteSong
   } from '../api/index'
   import {mixin} from '../mixins/index'
+  import { mapGetters} from 'vuex'
   export default {
     mixins: [mixin],
     name: 'info',
@@ -161,6 +173,7 @@
         tempData:[],//临时变量
         idx:-1,//删除的时候，一个临时变量来记录id
         fileList:[],//文件上传列表
+        toggle:'',
         rules:{
           name: [
             { required: true, message: '请输入歌名', trigger: 'blur' },
@@ -169,10 +182,13 @@
       }
     },
     computed:{
+      ...mapGetters([
+        'isPlay'
+      ]),
       showdata()//前端实现的分页，所以展示内容要动态更新
       {
         return this.tableData.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
-      }
+      },
     },
     watch: {
       select_word:function(){
@@ -190,11 +206,20 @@
           })
         }
       },
+      isPlay:function(){
+          if(this.isPlay===false)
+          {
+            this.toggle='';
+          }
+        }
     },
     created() {
       this.singerId=this.$route.query.id;//接收页面跳转传来的参数
       this.singername=this.$route.query.name;
       this.querydata();
+    },
+    destroyed() {
+      this.$store.commit('setIsplay',false);
     },
     methods:{
 
@@ -265,6 +290,8 @@
       updateSong()//更新歌曲信息
       {
         let _this = this;
+        if(_this.registerForm.lyric==='')
+          _this.registerForm.lyric='[00:00:00]暂无歌词'
         Updatesong(this.registerForm).then(res=>{
           console.log(res);
           this.notify("歌曲更新成功","success");
@@ -322,6 +349,7 @@
         let _this = this;
         if(res.code == 200){
           console.log(res);
+          _this.querydata();
           _this.$notify({
             title: '资源更新成功',
             type: 'success'
@@ -369,6 +397,19 @@
         }
         return result;
       },
+      //切换播放歌曲
+      setSongUrl(url,name)
+      {
+        if(this.toggle===name){
+          this.toggle='';
+          this.$store.commit('setIsplay',false);
+        }
+        else{
+          this.toggle = name;
+          this.$store.commit('setUrl',this.$store.state.HOST + url);
+          this.$store.commit('setIsplay',true);
+        }
+      }
     }
   }
 </script>
@@ -392,5 +433,25 @@
   .pagination{
     display: flex;
     justify-content: center;
+  }
+  .play {
+    position: absolute;
+    z-index: 100;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    top: 18px;
+    left: 28px;
+  }
+
+  .icon {
+    width: 2em;
+    height: 2em;
+    color: #c2d6d6;
+    fill: currentColor;
+    overflow: hidden;
   }
 </style>

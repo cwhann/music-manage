@@ -1,20 +1,27 @@
 <template>
     <div class="song-audio">
         <audio id="player"
-            :src="src"
-            controls = "controls"
+            :src="Url"
 
+            controls = "controls"
             @canplay="startPlay"
             @ended="ended"
         ></audio>
     </div>
 </template>
 <script>
+  import { mapGetters} from 'vuex'
 export default {
     name: 'song-audio',
-    data () {
-      return{
-        src:"http://localhost:8888/song/1612449596319%E5%B0%81%E8%8C%97%E5%9B%A7%E8%8F%8C%20-%20%E5%AE%89%E5%A8%9C%E7%9A%84%E6%A9%B1%E7%AA%97.mp3"
+    computed: {
+      ...mapGetters([
+        'isPlay',
+        'Url',
+      ])
+    },
+    watch: {
+      isPlay:function(){
+        this.togglePlay();
       }
     },
     methods:{
@@ -26,8 +33,19 @@ export default {
         },
         //播放完成之后触发
         ended(){
-           //this.isPlay = false
+           this.$store.commit('setIsplay',false);
         },
+        togglePlay(){
+          let player = document.querySelector('#player');
+          if(this.isPlay)
+          {
+            player.play();
+          }
+          else
+          {
+            player.pause();
+          }
+        }
 
     }
 }
@@ -35,6 +53,6 @@ export default {
 
 <style>
     .song-audio {
-        display: inline;
+        display: none;
     }
 </style>
