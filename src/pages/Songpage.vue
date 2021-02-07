@@ -1,7 +1,7 @@
 <template>
   <div class="table">
     <div class="crumbs">
-      <i class="el-icon-tickets"></i>歌曲信息
+      <i class="el-icon-tickets"></i>歌手歌曲信息
     </div>
     <div class="container">
       <div class="handle-box">

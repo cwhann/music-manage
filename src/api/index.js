@@ -50,3 +50,17 @@ export const deletesongbyid = (params) => get(`listsong/deletebyid?id=${params}`
 
 //根据id新增歌单歌曲
 export const addlistsong = (params) => post(`listsong/add`,params);
+
+
+
+//========================前端用户相关=======================
+//添加用户
+export const AddConsumer = (params) => post(`consumer/add`,params);
+//修改用户
+export const UpdateConsumer = (params) => post(`consumer/update`,params);
+//删除用户
+export const DeleteConsumer = (params) => get(`consumer/delete?id=${params}`);
+//查询用户
+export const queryallConsumer = () => get(`consumer/findall`);
+//根据用户名来模糊
+export const queryConsumerByName = (params) => get(`consumer/findbyusernamelike?username=${params}`);

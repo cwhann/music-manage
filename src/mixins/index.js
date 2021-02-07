@@ -15,8 +15,12 @@ export const mixin = {
         return `${this.$store.state.HOST}/${url}`;
       },
       //获取生日
-      attachBirth(val){
-        return String(val).substr(0,10);
+      attachBirth(val)
+      {
+        if(val)
+          return String(val).substr(0,10);
+        else
+          return "暂无信息";
       },
       //通过性别int转换为中文
       changeSex(val)
