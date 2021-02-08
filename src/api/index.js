@@ -18,6 +18,8 @@ export const querySingerbyid = (params) => get(`singer/findById?id=${params}`);
 export const querySingerByName = (params) => get(`singer/singerOfName?name=${params}`);
 
 //========================歌曲相关=======================
+//查询所有歌曲
+export const queryallSong=()=>get(`song/findall`);
 //添加歌曲
 export const Addsong = (params) => post(`song/addsong`,params);
 //修改歌曲
